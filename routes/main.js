@@ -16,5 +16,12 @@ module.exports = [
         handler: function (request, reply) {
             reply.view('index', { title: 'My home page' });
         },
+    },
+    {
+        method: 'GET',
+        path: '/media',
+        handler: function (request, reply) {
+            reply.view('media', { title: 'Media page' });
+        }
     }
 ];

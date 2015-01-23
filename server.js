@@ -29,13 +29,6 @@ server.views({
     isCached: false
 });
 
-
-/*var validate = function(){
-    console.log("session: "+ JSON.stringify(request.auth));
-    if (request.auth.credentials != null) {
-        return redirect("/login");
-    }
-}*/
 server.register(hapiAuthCookie , function (err) {
     server.auth.strategy('session', 'cookie', {
         password: 'secret',
@@ -44,8 +37,6 @@ server.register(hapiAuthCookie , function (err) {
         isSecure: false
     });
 });
-
-
 
 // Register bell with the server
 server.register(bell , function (err) {
