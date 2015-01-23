@@ -24,66 +24,10 @@ server.views({
     isCached: false
 });
 
-server.route({
-    method: 'GET',
-    path: '/{param*}',
-    handler: {
-        directory: {
-            path: 'public',
-            listing: true
-        }
-    }
-});
+module.exports = server;
 
-server.route({
-    method: 'GET',
-    path: '/',
-    handler: function (request, reply) {
-        reply.view('index', { title: 'My home page' });
-    }
-});
-
-
-server.route({
-    method: 'GET',
-    path: '/home',
-    handler: function (request, reply) {
-        reply.view('index', { title: 'My home page' });
-    }
-});
-
-server.route({
-    method: 'GET',
-    path: '/login',
-    handler: function (request, reply) {
-        reply.view('login', { title: 'Login page' });
-    }
-});
-
-/*server.route({
-    method: 'GET',
-    path: '/{name}',
-    handler: function (request, reply) {
-        reply('Hello, ' + encodeURIComponent(request.params.name) + '!');
-    }
-});*/
-
-server.start(function () {
-    console.log('Server running at:', server.info.uri);
-});
-
-
-// Logout Route
-server.route({
-    path: "/logout",
-    method: "GET",
-    config: {
-        handler: function(request, reply) {
-            request.auth.session.clear();
-            return reply.redirect('/');
-        }
-    }
-});
+server.route(require('./routes/main'));
+server.route(require('./routes/system'));
 
 // Register bell with the server
 server.register(require('bell'), function (err) {
@@ -130,5 +74,7 @@ server.register(require('bell'), function (err) {
         }
     });
 
-    server.start();
+    server.start(function () {
+        console.log('Server running at:', server.info.uri);
+    });
 });
