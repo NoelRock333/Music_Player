@@ -1,10 +1,20 @@
 var Hapi = require('hapi');
 var Swig = require('swig');
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
 
 var server = new Hapi.Server();
 server.connection({ port: 3000 });
-
 Swig.setDefaults({ cache: false });
+
+var userSchema = mongoose.Schema({
+    firstname: String,
+    lastname: String,
+    email: String
+});
+
+var User = mongoose.model('User', userSchema);
 
 server.views({
     path: "./views/",
@@ -63,6 +73,18 @@ server.start(function () {
 });
 
 
+// Logout Route
+server.route({
+    path: "/logout",
+    method: "GET",
+    config: {
+        handler: function(request, reply) {
+            request.auth.session.clear();
+            return reply.redirect('/');
+        }
+    }
+});
+
 // Register bell with the server
 server.register(require('bell'), function (err) {
     server.auth.strategy('google', 'bell', {
@@ -82,8 +104,28 @@ server.register(require('bell'), function (err) {
                 if (!request.auth.isAuthenticated) {
                     return reply('Authentication failed due to: ' + request.auth.error.message);
                 }
-                console.log(request.auth.credentials);
-                return reply.redirect('/home');
+
+                var user =  new User({
+                    firstname: request.auth.credentials.profile.name.first,
+                    lastname: request.auth.credentials.profile.name.last,
+                    email: request.auth.credentials.profile.raw.email
+                });
+
+                User.findOne({ email: user.email }, function (err, doc){
+                    if(err)
+                    {
+                        user.save(function (err, user) {
+                            if (err) { 
+                                console.log("Error saving user");
+                            }
+                            else{
+                                console.log("User saved!");
+                            }
+                        });
+                    }
+                    else
+                        reply.view('index', { title: 'Index page', username: user.firstname });
+                });
             }
         }
     });
