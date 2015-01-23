@@ -3,6 +3,8 @@ var Swig = require('swig');
 var bell = require('bell');
 var hapiAuthCookie = require('hapi-auth-cookie');
 var mongoose = require('mongoose');
+var fs = require("fs");
+var SocketIOFileUpload = require('socketio-file-upload');
 
 mongoose.connect('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
 
@@ -41,6 +43,8 @@ server.register(hapiAuthCookie , function (err) {
         isSecure: false
     });
 });
+
+
 
 // Register bell with the server
 server.register(bell , function (err) {
@@ -95,8 +99,16 @@ server.register(bell , function (err) {
     });
 });
 
-
 module.exports = server;
 
 server.route(require('./routes/main'));
 server.route(require('./routes/system'));
+
+var io = require('socket.io')(server.listener);
+
+io.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
