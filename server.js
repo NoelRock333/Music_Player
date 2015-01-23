@@ -4,7 +4,8 @@ var bell = require('bell');
 var hapiAuthCookie = require('hapi-auth-cookie');
 var mongoose = require('mongoose');
 var fs = require("fs");
-var SocketIOFileUpload = require('socketio-file-upload');
+var ss = require('socket.io-stream');
+var path = require('path');
 
 mongoose.connect('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
 
@@ -107,8 +108,10 @@ server.route(require('./routes/system'));
 var io = require('socket.io')(server.listener);
 
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+    console.log("Connected socket");
+    ss(socket).on('file', function(stream, data) {
+        console.log("File route");
+        var filename = path.basename(data.filename);
+        stream.pipe(fs.createWriteStream("./uploads/"+filename));
+    });
 });
