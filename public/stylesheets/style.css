@@ -1,0 +1,370 @@
+*{
+	padding: :0;
+	margin-top: 10px;
+}
+body{
+	background-color: #3E403C;
+	/*background-image: url("../image/fondo.png");
+	background-repeat: no-repeat; /* no repetir la imagen en toda la pagina*/
+	/*background-position: 800px; /* alinear al centro de toda la pagina*/
+	/*background-attachment: fixed; /* poner fijo el fondo que solo se deslicen las letras*/
+	/*-webkit-background-size: cover; /*tamaño en exploret */
+  	/*-moz-background-size: cover; /*tamaño en mozila */
+ 	/*-o-background-size: cover;/* navegador opera*/
+  	/*background-size: cover; /*tamaño*/
+}
+.centro{
+	height: 500px;
+	width: 400px;
+	border: 3px solid #1C7480;
+	border-radius: 20px;
+	background-color: #02265c;
+	opacity: .6;
+	position: absolute;
+	left: 80%;
+	top: 50%;
+	margin-top: -250px;
+	margin-left: -200px;*/
+}
+.titulo
+{
+	width: 100%;
+	height: 15%;
+	/*border: 5px solid black;*/
+	font-size: 50px;
+	font-style: normal;
+	font: bold;
+	font-weight:bolder;
+	color: #DEDDD5;
+	text-align: center;
+	margin-top: 50px;
+}
+.titulo2
+{
+	width: 100%;
+	height: 10%;
+	/*border: 5px solid cyan;*/
+	font-size: 20px;
+	font-style: normal;
+	font: bold;
+	font-weight:bolder;
+	color: #DEDDD5;
+	text-align: center;
+	vertical-align: center;
+}
+.titulo3
+{
+	width: 100%;
+	height: 5%;
+	/*border: 5px solid cyan;*/
+	font-size: 20px;
+	font-style: normal;
+	font: bold;
+	font-weight:bolder;
+	color: #DEDDD5;
+	text-align: center;
+	vertical-align: center;
+}
+.Google+
+{
+	width: 100%;
+	height: 100%;
+	left: 50%;
+	top: 30%;
+	margin-top: -1px;
+	margin-left: -100px;
+	text-align: center;
+}
+
+#button
+{
+	height: 50px;
+	width: 78%;
+	background-color: #F2AB50;	
+	border-radius: 10px;
+	border-color: #A74A38;
+	opacity: .7;
+	color: #572827;
+	font-size: 18px;
+	font: bold;
+	font-weight: bolder;
+	font-style: normal;
+	text-align: center;
+	/*left: 50%;
+	top: 80%;
+	margin-top: -1px;
+	margin-left: -100px;*/
+}
+.colum
+{
+	background-image: url("../images/fondo.png");
+	background-image: no-repeat; /* no repetir la imagen en toda la pagina*/
+	background-position: center center; /* alinear al centro de toda la pagina*/
+	background-attachment: fixed; /* poner fijo el fondo que solo se deslicen las letras*/
+	-webkit-background-size: cover; /*tamaño en exploret */
+  	-moz-background-size: cover; /*tamaño en mozila */
+ 	-o-background-size: cover;/* navegador opera*/
+  	background-size: cover; /*tamaño*/
+  	opacity: .5;
+	height: 600px;
+	width: 1200px;
+	float: left;
+	/*border: 3px solid black;
+	position: absolute;
+	/*left: 50%;
+	top: 50%;
+	margin-top: -300px;
+	margin-left: -450px;*/
+}
+.nameSong
+{
+	height: 100px;
+	text-align: center;
+	/*border: 3px solid cyan;*/
+}
+.Play
+{
+	/*height: 100px;*/
+
+	border: 3px solid white;
+    display:block;
+    width:50px;
+    height:50px;
+    line-height:45px;
+    border: 2px solid #f5f5f5;
+    border-radius: 50%;
+    color:#f5f5f5;
+    text-decoration:none;
+    background: #464646;
+    box-shadow: 0 0 3px gray;
+    font-size:28px;
+    font-weight:bold;
+	
+	left: 45%;
+	text-align: center;   	
+}
+.Play:hover {
+    background: #262626;
+}
+.music
+{
+	height: 400px;
+
+	/*border: 3px solid purple;*/
+}
+.lista
+{
+	height: 370px;
+	/*border: 3px solid green;*/
+}
+
+.more
+{
+	height: 400px;
+
+	/*border: 3px solid #1C7480;*/
+}
+.border1
+{
+	height: 600px;
+	/*border: 3px dashed white;*/
+}
+.border2
+{
+	height: 600px;
+    padding: 10px;
+    margin: 0px 0px 10px 0px;
+	/*border: 3px dashed purple;*/
+}
+.trans
+{
+	opacity: .4;
+}
+#name
+{
+	font-size: 25px;
+	font-style: normal;
+	font: bold;
+	font-weight:bolder;
+	color: #F9FFEF;
+	margin-top: 50px;
+	/*position: absolute;
+	left: 75%;
+	top: 40%;
+	margin-top: -200px;
+	margin-left: -250px;*/
+}
+#buttonPlay
+{
+	background-image: url("../images/fondo.png");
+	height: 50px;
+	width: 200px;
+	background-color: #F2AB50;	
+	border-radius: 10px;
+	border-color: #DEDDD5;
+	opacity: .7;
+	color: #1C7480;
+	font-size: 18px;
+	font: bold;
+	font-weight: bolder;
+	font-style: normal;
+	/*position: absolute;
+	left: 50%;
+	top: 80%;
+	margin-top: -1px;
+	margin-left: -100px;*/
+}
+ #recuadro
+ {
+ 	height: 200px;
+ 	border: 2px dotted #1C7480; 	
+	margin-top: 80px;
+ }
+ #moreSong
+ {
+ 	font-size: 30px;
+	font-style: normal;
+	font: bold;
+	font-weight:bolder;
+	color: #F9FFEF;
+	position: absolute;
+	margin-top: 5px;
+	margin-left: 10px;
+	margin-right: 30px;
+	text-align: center;
+ }
+#textTable
+{
+ 	font-size: 20px;
+	font-style: normal;
+	font: bold;
+	font-weight:bolder;
+	color: #02265C;
+	background-color: transparent;
+	text-align: center;
+    
+}
+table
+{
+	border: 2px dotted #1C7480; 
+	background-color: white;
+	width:100%;
+	 height: 100%;
+
+}
+tr
+{
+	border: #3E403C 1px solid ;
+	border-collapse: collapse; 
+}
+th
+{
+	border: #3E403C 1px solid ;
+	border-collapse: collapse; 
+	height:10px;
+	margin-left: 2px;
+}
+td
+{
+	text-align: center;
+	border: blue 1px solid ;
+}
+#Nopista
+{
+	color: black;
+	width: 15%;
+	text-align: center;
+}
+.canciones
+{
+	color: #F9FFEF;
+}
+.smore
+{
+	border: 3px solid white;
+    display:block;
+    width:50px;
+    height:50px;
+    line-height:45px;
+    border: 2px solid #f5f5f5;
+    border-radius: 30%;
+    color:#f5f5f5;
+    text-decoration:none;
+    background: #464646;
+    box-shadow: 0 0 3px gray;
+    font-size:30px;
+    font-weight:bold;
+   	position: absolute;
+	top: 45%;
+	left: 35%;
+	margin-top: 5px;
+	margin-left: 10px;
+	margin-right: 30px;
+	text-align: center;
+}
+.smore:hover
+{
+	background: #262626;
+}
+
+#fondo
+{
+	background-image: url("../images/fondo.png"); /* Colocar una imagen de fondo*/
+	background-image: no-repeat; /* no repetir la imagen en toda la pagina*/
+	background-position: center center; /* alinear al centro de toda la pagina*/
+	background-attachment: fixed; /* poner fijo el fondo que solo se deslicen las letras*/
+	-webkit-background-size: cover; /*tamaño en exploret */
+  	-moz-background-size: cover; /*tamaño en mozila */
+ 	-o-background-size: cover;/* navegador opera*/
+  	background-size: cover; /*tamaño*/	
+}
+.inputs
+{
+	
+	/*border: 2px dotted #1C7480;*/
+	width: 100%;
+	margin-top: 10px;
+	text-align: center;
+}
+input
+{
+	width: 80%;
+	height: 20%;
+}
+.textos
+{
+		height: 20%;
+ 	font-size: 20px;
+	font-style: normal;
+	font: bold;
+	font-weight:bolder;
+	color: white;
+	text-align: left;	
+}
+#ingresar
+{
+	height: 50px;
+	width: 50%;
+	background-color: #DD4B39;	
+	border-radius: 10px;
+	border-color: #FFFFFF;
+	opacity: .7;
+	color: #FFFFFF;
+	font-size: 18px;
+	font: bold;
+	font-weight: bolder;
+	font-style: normal;
+	text-align: center;
+	/*left: 50%;
+	top: 80%;
+	margin-top: -1px;
+	margin-left: -100px;*/
+}
+img
+{
+	width: 20%;
+	height: 20%;
+	text-align: center;
+	margin-top: -25px;
+	margin-left: 130px;
+}
