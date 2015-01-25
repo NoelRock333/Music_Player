@@ -16,8 +16,9 @@ $(document).ready(function(){
         $(this).val('');
         passwordnew=true
     });
+
     $('#ingresar').click(function(){
-    	alert('Entro');
+    	alert('¡Bienvenido!');
     	if(usernew){
 	    	user=$("input#User").val();
 	    	console.log(user);
