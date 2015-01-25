@@ -7,10 +7,15 @@ $(document).ready(function(){
 		alert('Cancion agregada con exito!');
 	});
 
-	$(".song").click(function()
+	$("div").click(function()
 	{
-		alert('sirve');
-		/*$(this).css('background-color',rgb(25.25.23));
-		$(this).css('color',fontColor);*/
+        /*var oID = $("div").attr("id");
+		var ide= $(this).attr('id');
+		alert('sirve '+oID);*/
+		/*funcional*/
+		$(this).css({ color: "#69EDC1", background: "#191917" });
+		var texto= $(this).text();
+		$('#namesong').html(texto);
+		
 	}); 
 });
