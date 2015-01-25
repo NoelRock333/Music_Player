@@ -29,7 +29,7 @@ server.route({
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-        reply.view('music', { title: 'My home page' });
+        reply.view('index', { title: 'My home page' });
         /*reply.view('media', { title: 'Media' });*/
     }
 
