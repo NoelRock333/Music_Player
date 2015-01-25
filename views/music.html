@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="stylesheets/style2.css">
 	<script src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/interacciones2.js"></script>
@@ -40,9 +41,9 @@
 									 </div>
 								</div>
 								<div class="bplays">
-									<button type="button" name="bck" id="bck"><<</button>
-									<button type="button" name="play" id="play">►</button>
-									<button type="button" name="frw" id="frw">>></button>
+									<button type="button" name="bck" id="bck"><i class="fa fa-backward"></i></button>
+									<button type="button" name="play" id="play"><i class="fa fa-play"></i></button>
+									<button type="button" name="frw" id="frw"><i class="fa fa-forward"></i></button>
 								</div>
 							</div>
 						</div>
@@ -52,7 +53,7 @@
 							<div class="title">
 								<p>Lista</p>
 							</div>
-							<div class="song">
+							<div class="song" id="suena">
 								<div id="song0">0.Cancion cancion</div>
 								<div id="song1">1.Cancion cancion</div>
 								<div id="song2">2.Cancion cancion</div>
@@ -62,7 +63,7 @@
 						<div id="more">
 							<p>
 								<label>Agregar mas canciones</label>
-								<button type="submit" class="btn btn-primary" id="moresong">+</button>
+								<button type="submit" class="btn btn-primary" id="moresong"><i class="fa fa-plus-square"></i></button>
 							</p>
 						</div>
 						

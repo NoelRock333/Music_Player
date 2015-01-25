@@ -40,7 +40,7 @@ server.route({
     path: '/{name}',
     handler: function (request, reply) {
         /*reply('Hello, ' + encodeURIComponent(request.params.name) + '!');*/
-        reply.view('media', { title: 'My home page' });
+        reply.view('music', { title: 'My home page' });
     }
 });
 
