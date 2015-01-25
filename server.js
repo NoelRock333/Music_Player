@@ -3,6 +3,9 @@ var Swig = require('swig');
 var bell = require('bell');
 var hapiAuthCookie = require('hapi-auth-cookie');
 var mongoose = require('mongoose');
+var fs = require("fs");
+var ss = require('socket.io-stream');
+var path = require('path');
 
 mongoose.connect('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
 
@@ -41,6 +44,8 @@ server.register(hapiAuthCookie , function (err) {
         isSecure: false
     });
 });
+
+
 
 // Register bell with the server
 server.register(bell , function (err) {
@@ -95,8 +100,18 @@ server.register(bell , function (err) {
     });
 });
 
-
 module.exports = server;
 
 server.route(require('./routes/main'));
 server.route(require('./routes/system'));
+
+var io = require('socket.io')(server.listener);
+
+io.on('connection', function (socket) {
+    console.log("Connected socket");
+    ss(socket).on('file', function(stream, data) {
+        console.log("File route");
+        var filename = path.basename(data.filename);
+        stream.pipe(fs.createWriteStream("./uploads/"+filename));
+    });
+});

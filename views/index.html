@@ -7,9 +7,38 @@
 <body>
 	Hello world
 	<img src="/images/Seguridad-internet.jpg" alt="">
-	dasdas
+	<input type="file" id="file" />
 	{{ username }}
-
 	<p>Usuario: {{ user }}</p>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/javascripts/socket.io-stream.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script>
+	$(function() {
+	  var socket = io('http://localhost:3000');
+
+	  $('#file').change(function(e) {
+	  	console.log("emitiendo change");
+	    var file = e.target.files[0];
+	    var stream = ss.createStream();
+
+	    // upload a file to the server.
+	    ss(socket).emit('file', stream, {size: file.size, filename: file.name});
+	    ss.createBlobReadStream(file).pipe(stream);
+
+	    // Upload progress 
+	    /*var blobStream = ss.createBlobReadStream(file);
+		var size = 0;
+
+		blobStream.on('data', function(chunk) {
+		  size += chunk.length;
+		  console.log(Math.floor(size / file.size * 100) + '%');
+		  // -> e.g. '42%'
+		});
+
+		blobStream.pipe(stream);*/
+	  });
+	});
+	</script>
 </body>
 </html>
