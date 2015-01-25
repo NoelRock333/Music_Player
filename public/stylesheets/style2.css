@@ -1,35 +1,43 @@
 *{
 	padding: :0;
-	margin-top: 10px;
+	margin-top: 5px;
 }
-body{ background-color: #3E403C; }
-
-/*Dentro*/
-.colum
-{
-	background-image: url("../images/fondo.png");
+body
+{ 
+	background-image: url("../images/fondo2.png");
+	background-color: #3E403C; 
 	background-image: no-repeat; /* no repetir la imagen en toda la pagina*/
 	background-position: center center; /* alinear al centro de toda la pagina*/
+	background-attachment: fixed; /* poner fijo el fondo que solo se deslicen las letras*/
 	-webkit-background-size: cover; /*tamaño en exploret */
   	-moz-background-size: cover; /*tamaño en mozila */
  	-o-background-size: cover;/* navegador opera*/
   	background-size: cover; /*tamaño*/
-  	opacity: .5;
-	height: 600px;
-	width: 1200px;
-	float: left;
+
+}
+
+/*Dentro*/
+.colum
+{
+	/*border: 2px dotted #3E403C;*/
+	height: 100%;
+	width: 100%;
 }
 
 .border1 
 {
 	/*border: 5px solid cyan;*/
 	height: 600px;
+
 }
 
 .border2
 {
-	/*border: 5px solid red;*/
+	border: 2px dotted #5C4B4A;
 	height: 600px;
+	background-color: #8D8576;
+	opacity: .6; 
+	border-radius: 15px;
     /*padding: 10px;
     margin: 0px 0px 10px 0px;*/
 }
