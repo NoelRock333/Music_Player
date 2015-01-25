@@ -17,7 +17,8 @@ module.exports = [
 	        handler: function(request, reply) {
 	            request.auth.session.clear();
 	            return reply.redirect('/');
-	        }
+	        },
+	        auth: "session"
 	    }
 	},
 	{

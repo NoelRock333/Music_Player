@@ -24,10 +24,31 @@ server.views({
     isCached: false
 });
 
-module.exports = server;
 
-server.route(require('./routes/main'));
-server.route(require('./routes/system'));
+/*var validate = function(){
+    console.log("session: "+ JSON.stringify(request.auth));
+    if (request.auth.credentials != null) {
+        return redirect("/login");
+    }
+}*/
+server.register(require('hapi-auth-cookie'), function (err) {
+    server.auth.strategy('session', 'cookie', {
+        password: 'secret',
+        cookie: 'sid-example',
+        redirectTo: '/login',
+        isSecure: false
+    });
+});
+
+/*var validate = function (username, callback) {
+    var user = users[username];
+    if (!user) {
+        return callback(null, false);
+    }
+
+    callback(err, isValid, { id: user.id, name: user.name });
+};
+*/
 
 // Register bell with the server
 server.register(require('bell'), function (err) {
@@ -67,8 +88,11 @@ server.register(require('bell'), function (err) {
                             }
                         });
                     }
-                    else
-                        reply.view('index', { title: 'Index page', username: user.firstname });
+                    else{
+                        request.auth.session.set(user);
+                        return reply.redirect('/'); 
+                        //reply.view('index', { title: 'Index page', username: user.firstname });
+                    }
                 });
             }
         }
@@ -78,3 +102,9 @@ server.register(require('bell'), function (err) {
         console.log('Server running at:', server.info.uri);
     });
 });
+
+
+module.exports = server;
+
+server.route(require('./routes/main'));
+server.route(require('./routes/system'));
