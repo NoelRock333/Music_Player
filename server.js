@@ -1,5 +1,7 @@
 var Hapi = require('hapi');
 var Swig = require('swig');
+var bell = require('bell');
+var hapiAuthCookie = require('hapi-auth-cookie');
 var mongoose = require('mongoose');
 
 mongoose.connect('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
@@ -31,7 +33,7 @@ server.views({
         return redirect("/login");
     }
 }*/
-server.register(require('hapi-auth-cookie'), function (err) {
+server.register(hapiAuthCookie , function (err) {
     server.auth.strategy('session', 'cookie', {
         password: 'secret',
         cookie: 'sid-example',
@@ -40,18 +42,8 @@ server.register(require('hapi-auth-cookie'), function (err) {
     });
 });
 
-/*var validate = function (username, callback) {
-    var user = users[username];
-    if (!user) {
-        return callback(null, false);
-    }
-
-    callback(err, isValid, { id: user.id, name: user.name });
-};
-*/
-
 // Register bell with the server
-server.register(require('bell'), function (err) {
+server.register(bell , function (err) {
     server.auth.strategy('google', 'bell', {
         provider: 'google',
         password: 'hapiauth',
@@ -62,7 +54,7 @@ server.register(require('bell'), function (err) {
 
     server.route({
         method: ['GET', 'POST'], // Must handle both GET and POST
-        path: '/auth/google',          // The callback endpoint registered with the provider
+        path: '/auth/google',  // The callback endpoint registered with the provider
         config: {
             auth: 'google',
             handler: function (request, reply) {
@@ -81,17 +73,17 @@ server.register(require('bell'), function (err) {
                     {
                         user.save(function (err, user) {
                             if (err) { 
-                                console.log("Error saving user");
+                                console.log("Server: Error saving user");
                             }
                             else{
-                                console.log("User saved!");
+                                request.auth.session.set(user);
+                                return reply.redirect('/'); 
                             }
                         });
                     }
                     else{
                         request.auth.session.set(user);
                         return reply.redirect('/'); 
-                        //reply.view('index', { title: 'Index page', username: user.firstname });
                     }
                 });
             }
