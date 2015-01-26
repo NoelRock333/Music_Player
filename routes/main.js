@@ -5,7 +5,13 @@ module.exports = [
         config: { 
             handler: function (request, reply) {
                 //console.log("User: "+ JSON.stringify(request.auth.credentials));
-                reply.view('index', { title: 'My home page',  username: request.auth.credentials.email });
+                reply.view('index', { 
+                    title: 'My home page',  
+                    user: { 
+                        name: request.auth.credentials.firstname, 
+                        email: request.auth.credentials.email 
+                    } 
+                });
             },
             auth: "session" 
         }

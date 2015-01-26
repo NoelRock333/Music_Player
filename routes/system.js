@@ -9,6 +9,16 @@ module.exports = [
 	        }
 	    }
 	},
+	{	// For access to assets
+	    method: 'GET',
+	    path: '/songs/{param*}',
+	    handler: {
+	        directory: {
+	            path: 'uploads',
+	            listing: true
+	        }
+	    }
+	},
 	{	
 		// Logout Route
 	    path: "/logout",
