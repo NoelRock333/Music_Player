@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="stylesheets/style2.css">
+	<script src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/interacciones2.js"></script>
+    <script src="./audiojs/audio.min.js"></script>
+    <script>
+      audiojs.events.ready(function() {
+        audiojs.createAll();
+      });
+    </script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colum container">
+				<div class="col-lg-2 col-md-2 col-sm-1 col-xs-1 border1"></div>
+
+				<div class="col-lg-8 col-md-8 col-sm-10 col-xs-10 border2">
+					<div id="bpart1">
+						<div class="col-lg-3 image">
+							<img src="../images/images.png" alt="Imagen responsive">
+						</div>
+						<div class="col-lg-9 reproduce">
+							<div id="nametitle" >
+								<p id="titlesong">Bienvenido</p>
+								<p id="namesong">Name song</p>
+							</div>
+
+							<div id="buttons" >
+								<div class="progress progress-striped active progress progress-striped active process">
+									 <div class="progress-bar" role="progressbar"
+									       aria-valuenow="45" aria-valuemin="20" aria-valuemax="100"
+									       style="width: 100%">
+									   <span class="sr-only">100% completado</span>
+									 </div>
+								</div>
+								<div class="bplays">
+									<button type="button" name="bck" id="bck"><i class="fa fa-backward"></i></button>
+									<button type="button" name="play" id="play"><i class="fa fa-play"></i></button>
+									<button type="button" name="frw" id="frw"><i class="fa fa-forward"></i></button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="bpart2">
+						<div id="lista">
+							<div class="title">
+								<p>Lista</p>
+							</div>
+							<div class="song" id="suena">
+								<div id="song0">0.Cancion cancion</div>
+								<div id="song1">1.Cancion cancion</div>
+								<div id="song2">2.Cancion cancion</div>
+								<div id="song3">3.Cancion cancion</div>
+							</div>
+						</div>
+						<div id="more">
+							<p>
+								<label>Agregar mas canciones</label>
+								<button type="submit" class="btn btn-primary" id="moresong"><i class="fa fa-plus-square"></i></button>
+							</p>
+						</div>
+						
+					</div>
+					<div id="bpart3">
+						
+					</div>
+				</div>
+
+				<div class="col-lg-2 col-md-2 col-sm-1 col-xs-1 border1"></div>
+			</div>	
+		</div>	
+	</div>	
+</body>
+</html>

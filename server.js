@@ -21,6 +21,8 @@ var userSchema = mongoose.Schema({
 
 var User = mongoose.model('User', userSchema);
 
+Swig.setDefaults({ cache: false });
+
 server.views({
     path: "./views/",
     engines: {
@@ -106,3 +108,4 @@ io.on('connection', function (socket) {
         stream.pipe(fs.createWriteStream("./uploads/"+filename));
     });
 });
+
