@@ -11,7 +11,9 @@ mongoose.connect('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTest
 
 var server = new Hapi.Server();
 server.connection({ port: 3000 });
+
 Swig.setDefaults({ cache: false });
+Swig.setDefaults({ varControls: ['<%=', '%>'] });
 
 var userSchema = mongoose.Schema({
     firstname: String,
