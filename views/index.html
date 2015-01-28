@@ -38,18 +38,21 @@
 
 							<div id="buttons" >
 								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+									<div id="time_line" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
 								</div>
 								<div id="media_controls">
 									<button type="button" id="btn_backward">
 										<i class="fa fa-backward"></i>
 									</button>
-									<button type="button" id="btn_play">
-										<i class="fa fa-play"></i>
+									<button type="button" id="btn_play" play="{{ playingUrl }}">
+										<i class="fa" ng-class="{'fa-play': [isPaused, isStopped], 'fa-pause': isPlaying}" model="$scope"></i>
+										<!--<i class="fa" ng-class="{'fa-play': isPaused, 'fa-pause': isPlaying, 'fa-play': isStopped}"></i>-->
 									</button>
 									<button type="button" id="btn_forward">
 										<i class="fa fa-forward"></i>
 									</button>
+									<br>
+									Playing: {{ isPlaying }} - Paused: {{ isPaused }} - Stopped: {{ isStopped }}
 								</div>
 							</div>
 						</div>
@@ -66,7 +69,7 @@
 								<div id="songs_list">
 									<ul>
 										<li ng-repeat="item in songs" class="song" data-url="{{item.url}}">
-											<div class="play_control" ng-click="play(item.url)">
+											<div class="play_control" play="{{item.url}}">
 												<i class="fa fa-play"></i>
 											</div>
 											{{ item.name }}

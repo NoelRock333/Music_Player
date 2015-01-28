@@ -41,7 +41,7 @@ $(document).on("ready", function()
 		//$("#media_player");
 	});
 
-	$("#btn_play").on("click", function(){
+	/*$("#btn_play").on("click", function(){
 		var mediaPlayer = $("#media_player");
 
 		if( mediaPlayer.hasClass("playing") ){
@@ -54,7 +54,7 @@ $(document).on("ready", function()
 			mediaPlayer.addClass("playing");
 			$(this).find(".fa-play").removeClass("fa-play").addClass("fa-pause");
 		}
-	});
+	});*/
 
 	/*$("div").click(function()
 	{
