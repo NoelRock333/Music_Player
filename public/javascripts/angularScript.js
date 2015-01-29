@@ -32,24 +32,21 @@
 	angular.module('player.controllers', [])
 		.controller('PlayerController', ['$scope', 'musicService', function($scope, musicService){
 
-			//var mediaPlayer = $("#media_player");
-			//var btnPlay = $("#btn_play");
+			$scope.player = { playing: false }; 
+			$scope.btnPlayerClass = 'fa-play';
 
-			$scope.isPlaying = false;
-			$scope.isPaused = false;
-			$scope.isStopped = true;
+			$scope.togglePlayingState = function() {
+				if($scope.btnPlayerClass == 'fa-play')
+					$scope.btnPlayerClass = 'fa-pause';
+				else
+					$scope.btnPlayerClass = 'fa-play';
+			};
 
 			musicService.all().then(function(data){
 				$scope.songs = data;
 				$scope.playingUrl = data[0].url;
 			});
 
-			/*$scope.play = function(url){
-				mediaPlayer.attr("src", url);
-				mediaPlayer[0].play();
-				mediaPlayer.addClass("playing");
-				btnPlay.find(".fa-play").removeClass("fa-play").addClass("fa-pause");
-			}*/
 		}])
 		.controller('MusicController',['$scope', 'musicService', function($scope, musicService){
 			$scope.song = {};
@@ -67,29 +64,19 @@
 				link: function($scope, $element, $attrs) {
 
 					var $mediaPlayer = $("#media_player")
-					var $btnPlay = $("#btn_play");
 					var $timeLine = $("#time_line");
 					// <a class="btn" play="song_url"> </a>
 					
 					$element.on("click", function(e) {
 						if($mediaPlayer.attr("src") == $attrs.play && $scope.isPaused == false){
 							$scope.isPaused = true;
-							$scope.isPlaying = false;
-							$scope.isStopped = false;
 							$mediaPlayer[0].pause();
 						}
 						else{
 							$scope.isPaused = false;
-							$scope.isStopped = false;
-							$scope.isPlaying = true;
 							$mediaPlayer.attr("src", $attrs.play);
 							$mediaPlayer[0].play();
 						}
-						$scope.$apply(function(){
-							$scope.isPaused = $scope.isPaused;
-							$scope.isStopped = $scope.isStopped;
-							$scope.isPlaying = $scope.isPlaying;
-						});
 					});
 
 					$mediaPlayer.on('timeupdate', function() {

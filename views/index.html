@@ -45,14 +45,13 @@
 										<i class="fa fa-backward"></i>
 									</button>
 									<button type="button" id="btn_play" play="{{ playingUrl }}">
-										<i class="fa" ng-class="{'fa-play': [isPaused, isStopped], 'fa-pause': isPlaying}" model="$scope"></i>
+										<i class="fa" ng-class="btnPlayerClass" ng-click="togglePlayingState()"></i>
 										<!--<i class="fa" ng-class="{'fa-play': isPaused, 'fa-pause': isPlaying, 'fa-play': isStopped}"></i>-->
 									</button>
 									<button type="button" id="btn_forward">
 										<i class="fa fa-forward"></i>
 									</button>
 									<br>
-									Playing: {{ isPlaying }} - Paused: {{ isPaused }} - Stopped: {{ isStopped }}
 								</div>
 							</div>
 						</div>
@@ -69,7 +68,7 @@
 								<div id="songs_list">
 									<ul>
 										<li ng-repeat="item in songs" class="song" data-url="{{item.url}}">
-											<div class="play_control" play="{{item.url}}">
+											<div class="play_control" ng-click="togglePlayingState()" play="{{item.url}}">
 												<i class="fa fa-play"></i>
 											</div>
 											{{ item.name }}
