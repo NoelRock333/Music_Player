@@ -1,4 +1,4 @@
-(function(){
+(function(_){
 
 	var app = angular.module('player', [
 		'player.directives',
@@ -32,14 +32,21 @@
 	angular.module('player.controllers', [])
 		.controller('PlayerController', ['$scope', 'musicService', function($scope, musicService){
 
+			var $mediaPlayer = $("#media_player");
+			var $timeLine = $("#time_line");
 			$scope.player = { playing: false }; 
 			$scope.btnPlayerClass = 'fa-play';
+			$scope.songIndex = 0;
 
-			$scope.togglePlayingState = function() {
+			$scope.togglePlayingState = function(index) {
 				if($scope.btnPlayerClass == 'fa-play')
 					$scope.btnPlayerClass = 'fa-pause';
 				else
 					$scope.btnPlayerClass = 'fa-play';
+
+				if(typeof index != "undefined"){
+					$scope.songIndex = index;
+				}
 			};
 
 			musicService.all().then(function(data){
@@ -63,7 +70,7 @@
 				restrict: "A",
 				link: function($scope, $element, $attrs) {
 
-					var $mediaPlayer = $("#media_player")
+					var $mediaPlayer = $("#media_player");
 					var $timeLine = $("#time_line");
 					// <a class="btn" play="song_url"> </a>
 					
@@ -89,9 +96,14 @@
 
 					//Esta es para cuando quieres parar las rolas
 					$mediaPlayer.on('ended', function() {
-						this.currentTime = 0;
+						$mediaPlayer.currentTime = 0;
+						$timeLine.css({width: '0%'});
+						//$scope.songIndex = $scope.songIndex + 1;
+						$mediaPlayer.attr("src", $scope.songs[$scope.songIndex].url);
+						$mediaPlayer[0].play();
+						$scope.songIndex++;
 					});
 				}
 			}
 		}]);
-}());
+	}());

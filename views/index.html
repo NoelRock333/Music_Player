@@ -12,6 +12,7 @@
 	<script src="/javascripts/jquery.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/javascripts/socket.io-stream.js"></script>
+	<script src="/javascripts/underscore.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
 	<script src="/javascripts/angularScript.js"></script>
 </head>
@@ -68,7 +69,7 @@
 								<div id="songs_list">
 									<ul>
 										<li ng-repeat="item in songs" class="song" data-url="{{item.url}}">
-											<div class="play_control" ng-click="togglePlayingState()" play="{{item.url}}">
+											<div class="play_control" ng-click="togglePlayingState($index)" play="{{item.url}}">
 												<i class="fa fa-play"></i>
 											</div>
 											{{ item.name }}
