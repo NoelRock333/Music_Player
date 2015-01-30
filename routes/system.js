@@ -5,7 +5,8 @@ module.exports = [
 	    handler: {
 	        directory: {
 	            path: 'public',
-	            listing: true
+	            listing: false,
+	            index: true
 	        }
 	    }
 	},
