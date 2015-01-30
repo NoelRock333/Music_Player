@@ -1,3 +1,6 @@
+//var mongoose = require('mongoose');
+//mongoose.connect('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
+
 module.exports = [
     {
         method: 'GET',
@@ -47,13 +50,31 @@ module.exports = [
         path: '/newSong',
         config: {
             handler: function (request, reply) {
+                var mongoose_song = require('mongoose');
+                mongoose_song.createConnection('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
                 var name = request.query.name;
                 var filename = request.query.filename;
                 var author = request.query.author;
                 var song = true;
+                
+                var song =  new Song({
+                    name: name,
+                    author: author,
+                    url: "/songs/" + filename 
+                });
 
-                if(name != "" && typeof name != "undefined" && filename != "" && typeof filename != "undefined")
-                    song = { name: name, author: author, url: "/songs/"+ filename };
+                if(name != "" && typeof name != "undefined" && filename != "" && typeof filename != "undefined"){
+                    var user = new User({ songs: [song] });
+                    user.save(function (err, user) {
+                        if (err) { 
+                            console.log("Server: Error saving user");
+                        }
+                        else{
+                            console.log("Guardado");
+                        }
+                    });
+                    //song = { name: name, author: author, url: "/songs/"+ filename };
+                }
                 else
                     song = false;
 
