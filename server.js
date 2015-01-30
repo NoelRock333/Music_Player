@@ -16,22 +16,9 @@ server.connection({ port: 3000 });
 Swig.setDefaults({ cache: false });
 Swig.setDefaults({ varControls: ['<%=', '%>'] });
 
-var userSchema = mongoose.Schema({
-    firstname: String,
-    lastname: String,
-    email: String,
-    songs: [songSchema]
-});
+var User = require("./models/users");
 
-var User = mongoose.model('User', userSchema);
-
-var songSchema = mongoose.Schema({
-    name: String,
-    author: String,
-    url: String
-});
-
-var Song = mongoose.model('Song', songSchema);
+ObjectId = mongoose.Types.ObjectId;
 
 server.views({
     path: "./views/",

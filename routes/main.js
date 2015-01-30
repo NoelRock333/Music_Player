@@ -1,5 +1,7 @@
-//var mongoose = require('mongoose');
-//mongoose.connect('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
+//var mongoose_song = require('mongoose');
+//mongoose_song.createConnection('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
+var Song = require("../models/songs");
+var User = require("../models/users");
 
 module.exports = [
     {
@@ -50,8 +52,6 @@ module.exports = [
         path: '/newSong',
         config: {
             handler: function (request, reply) {
-                var mongoose_song = require('mongoose');
-                mongoose_song.createConnection('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
                 var name = request.query.name;
                 var filename = request.query.filename;
                 var author = request.query.author;
@@ -65,14 +65,8 @@ module.exports = [
 
                 if(name != "" && typeof name != "undefined" && filename != "" && typeof filename != "undefined"){
                     var user = new User({ songs: [song] });
-                    user.save(function (err, user) {
-                        if (err) { 
-                            console.log("Server: Error saving user");
-                        }
-                        else{
-                            console.log("Guardado");
-                        }
-                    });
+
+                    User.update({ email: request.auth.credentials.email }, {$push : { "songs": song }});
                     //song = { name: name, author: author, url: "/songs/"+ filename };
                 }
                 else
