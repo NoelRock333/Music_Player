@@ -8,6 +8,7 @@
 
 	angular.module('player.services', [])
 		.factory('musicService', ['$http','$q', function($http, $q){
+			
 			function all(){
 				var deferred = $q.defer();
 
@@ -18,14 +19,27 @@
 				return deferred.promise;
 			}
 
-			function byName(songName){
-				all().then(function(data){
-					return data;
+			function save(songname, author, filename){
+				var deferred = $q.defer();
+
+				$http({
+					method: 'POST',
+					url: '/newSong',
+					params: {
+						name: songname, 
+						author: author, 
+						filename: filename
+					}
+				})
+				.success(function(data){
+					deferred.resolve(data);
 				});
+				return deferred.promise;
 			}
+
 			return {
 				all: all,
-				byName: byName
+				save: save
 			};
 		}]);
 
@@ -102,6 +116,68 @@
 						$mediaPlayer.attr("src", $scope.songs[$scope.songIndex].url);
 						$mediaPlayer[0].play();
 						$scope.songIndex++;
+					});
+				}
+			}
+		}])
+		.directive('songUploader', ['$document', 'musicService', function($document, musicService) {
+			return {
+				restrict: "A",
+				link: function($scope, $element, $attrs) {
+					var socket = io('http://localhost:3000');
+					var $uploadProgress = $("#upload_progress");
+
+					$element.on("change", function(e) {
+						var file = e.target.files[0];
+						var stream = ss.createStream();
+						var size = 0;
+						var progress = 0;
+						var filename = "";
+
+						if(file.name.split('.').pop() == "mp3"){
+							// upload a file to the server.
+							ss(socket).emit('file', stream, {size: file.size, filename: $attrs.songUploader });
+
+							// Upload progress 
+							var blobStream = ss.createBlobReadStream(file);
+
+							blobStream.on('data', function(chunk) {
+								size += chunk.length;
+								progress = Math.floor(size / file.size * 100);
+								$uploadProgress.text(progress+"%");
+
+								if(progress == 100){
+									songname=prompt("Nombre del tema","");
+									if(songname != ""){
+										author=prompt("Nombre del autor","");
+										if(author != ""){
+											musicService.save(songname, author, filename).then(
+												function(data){
+													console.log(data);
+													if(data == false)
+														alert("Algo salió mal, intentalo de nuevo")
+													else
+														alert("Tema agregado correctamente");
+											});
+										}
+									}
+									else
+										alert("No se ha podido agregar el tema");
+
+									$("#upload_progress").empty();
+								}
+							});
+
+							blobStream.pipe(stream);
+
+							socket.on('file_name', function (data) {
+								filename = data.filename;
+							});
+
+						}
+						else
+							alert("Formato de archivo no admitido");
+
 					});
 				}
 			}

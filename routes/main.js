@@ -9,7 +9,8 @@ module.exports = [
                     title: 'Music Player',  
                     user: { 
                         name: request.auth.credentials.firstname, 
-                        email: request.auth.credentials.email 
+                        email: request.auth.credentials.email,
+                        id: request.auth.credentials._id
                     } 
                 });
             },
@@ -40,5 +41,25 @@ module.exports = [
             ];
             return reply(songs).type('application/json');
         }
-    }
+    },
+    {
+        method: 'POST',
+        path: '/newSong',
+        config: {
+            handler: function (request, reply) {
+                var name = request.query.name;
+                var filename = request.query.filename;
+                var author = request.query.author;
+                var song = true;
+
+                if(name != "" && typeof name != "undefined" && filename != "" && typeof filename != "undefined")
+                    song = { name: name, author: author, url: "/songs/"+ filename };
+                else
+                    song = false;
+
+                return reply(song).type('application/json');
+            },
+            auth: "session" 
+        }
+    },
 ];

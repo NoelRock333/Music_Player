@@ -3,7 +3,7 @@
 
 $(document).on("ready", function()
 {
-	var socket = io('http://localhost:3000');
+	/*var socket = io('http://localhost:3000');
 
 	$('#file').on("change", function(e) {
 		console.log("emitiendo change");
@@ -30,7 +30,7 @@ $(document).on("ready", function()
 		});
 
 		blobStream.pipe(stream);
-	});
+	});*/
 
 
 	$("#btn_backward").on("click", function(){

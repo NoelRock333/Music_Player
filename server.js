@@ -105,9 +105,13 @@ var io = require('socket.io')(server.listener);
 io.on('connection', function (socket) {
     console.log("Connected socket");
     ss(socket).on('file', function(stream, data) {
-        console.log("File route");
-        var filename = path.basename(data.filename);
+        var filename = data.filename + Date.now() + ".mp3";
+
         stream.pipe(fs.createWriteStream("./uploads/"+filename));
+
+        if (fs.existsSync("./uploads/"+filename)) {
+            socket.emit('file_name', { filename: filename });
+        }
     });
 });
 
