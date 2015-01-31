@@ -64,8 +64,7 @@ server.register(bell , function (err) {
                 });
 
                 User.findOne({ email: user.email }, function (err, doc){
-                    console.log(err);
-                    if(err || err == null)
+                    if(doc == null)
                     {
                         user.save(function (err, user) {
                             if (err) { 

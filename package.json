@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "audio-metadata": "^0.3.0",
     "bell": "^2.0.0",
     "hapi": "^8.1.0",
     "hapi-auth-cookie": "^2.0.0",

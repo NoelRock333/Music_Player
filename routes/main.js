@@ -2,6 +2,8 @@
 //mongoose_song.createConnection('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
 var Song = require("../models/songs");
 var User = require("../models/users");
+var fs = require("fs");
+var audioMetaData = require('audio-metadata');
 
 module.exports = [
     {
@@ -52,22 +54,32 @@ module.exports = [
         path: '/newSong',
         config: {
             handler: function (request, reply) {
-                var name = request.query.name;
                 var filename = request.query.filename;
-                var author = request.query.author;
                 var song = true;
+
+                //var mp3Data = fs.readFileSync("./uploads/"+filename);
+                var metadata = audioMetaData.id3v2(fs.readFileSync("./uploads/"+filename));
+                if(Object.getOwnPropertyNames(metadata).length === 0)
+                    metadata = audioMetaData.id3v1(fs.readFileSync("./uploads/"+filename));
                 
                 var song =  new Song({
-                    name: name,
-                    author: author,
+                    name: metadata.title,
+                    author: metadata.artist,
                     url: "/songs/" + filename 
                 });
 
-                if(name != "" && typeof name != "undefined" && filename != "" && typeof filename != "undefined"){
-                    var user = new User({ songs: [song] });
-
-                    User.update({ email: request.auth.credentials.email }, {$push : { "songs": song }});
-                    //song = { name: name, author: author, url: "/songs/"+ filename };
+                if(song.name != "" && typeof song.name != "undefined" && filename != "" && typeof filename != "undefined"){
+                    User.findOne({ email: request.auth.credentials.email }, function(err, user){
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            user.update({ $push: { songs: song } }, {upsert: true}, function(err, user){
+                                if(err)
+                                    song = false;
+                            });
+                        }
+                    });
                 }
                 else
                     song = false;
