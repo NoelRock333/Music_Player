@@ -87,7 +87,13 @@
 					// <a class="btn" play="song_url"> </a>
 					
 					$element.on("click", function(e) {
-						if($mediaPlayer.attr("src") == $attrs.play && $scope.isPaused == false){
+						if($attrs.play == "forward"){
+							playNext();
+						}
+						else if($attrs.play == "backward"){
+
+						}
+						else if($mediaPlayer.attr("src") == $attrs.play && $scope.isPaused == false){
 							$scope.isPaused = true;
 							$mediaPlayer[0].pause();
 						}
@@ -106,15 +112,18 @@
 						$timeLine.css({width: pos + '%'});
 					});
 
-					//Esta es para cuando quieres parar las rolas
+					// Detect when the song end
 					$mediaPlayer.on('ended', function() {
+						playNext();
+					});
+
+					function playNext(){
 						$mediaPlayer.currentTime = 0;
 						$timeLine.css({width: '0%'});
-						//$scope.songIndex = $scope.songIndex + 1;
 						$mediaPlayer.attr("src", $scope.songs[$scope.songIndex].url);
 						$mediaPlayer[0].play();
 						$scope.songIndex++;
-					});
+					}
 				}
 			}
 		}])
