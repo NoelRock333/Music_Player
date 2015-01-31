@@ -18,8 +18,6 @@ Swig.setDefaults({ varControls: ['<%=', '%>'] });
 
 var User = require("./models/users");
 
-ObjectId = mongoose.Types.ObjectId;
-
 server.views({
     path: "./views/",
     engines: {
