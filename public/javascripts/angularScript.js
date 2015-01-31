@@ -19,15 +19,13 @@
 				return deferred.promise;
 			}
 
-			function save(songname, author, filename){
+			function save(filename){
 				var deferred = $q.defer();
 
 				$http({
 					method: 'POST',
 					url: '/newSong',
 					params: {
-						name: songname, 
-						author: author, 
 						filename: filename
 					}
 				})
@@ -147,22 +145,14 @@
 								$uploadProgress.text(progress+"%");
 
 								if(progress == 100){
-									songname=prompt("Nombre del tema","");
-									if(songname != ""){
-										author=prompt("Nombre del autor","");
-										if(author != ""){
-											musicService.save(songname, author, filename).then(
-												function(data){
-													console.log(data);
-													if(data == false)
-														alert("Algo salió mal, intentalo de nuevo")
-													else
-														alert("Tema agregado correctamente");
-											});
-										}
-									}
-									else
-										alert("No se ha podido agregar el tema");
+									musicService.save(filename).then(
+										function(data){
+											console.log(data);
+											if(data == false)
+												alert("Algo salió mal, intentalo de nuevo")
+											else
+												alert("Tema agregado correctamente");
+									});
 
 									$("#upload_progress").empty();
 								}

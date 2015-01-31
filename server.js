@@ -8,6 +8,7 @@ var ss = require('socket.io-stream');
 var path = require('path');
 
 mongoose.connect('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
+//mongoose.createConnection('mongodb://localhost/test');
 
 var server = new Hapi.Server();
 server.connection({ port: 3000 });
@@ -15,15 +16,9 @@ server.connection({ port: 3000 });
 Swig.setDefaults({ cache: false });
 Swig.setDefaults({ varControls: ['<%=', '%>'] });
 
-var userSchema = mongoose.Schema({
-    firstname: String,
-    lastname: String,
-    email: String
-});
+var User = require("./models/users");
 
-var User = mongoose.model('User', userSchema);
-
-Swig.setDefaults({ cache: false });
+ObjectId = mongoose.Types.ObjectId;
 
 server.views({
     path: "./views/",
@@ -69,7 +64,7 @@ server.register(bell , function (err) {
                 });
 
                 User.findOne({ email: user.email }, function (err, doc){
-                    if(err)
+                    if(doc == null)
                     {
                         user.save(function (err, user) {
                             if (err) { 
