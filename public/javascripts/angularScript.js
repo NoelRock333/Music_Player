@@ -159,8 +159,10 @@
 											console.log(data);
 											if(data == false)
 												alert("Algo salió mal, intentalo de nuevo")
-											else
+											else{
 												alert("Tema agregado correctamente");
+												$scope.songs.push(data);
+											}
 									});
 
 									$("#upload_progress").empty();
