@@ -1,0 +1,140 @@
+body
+	background-image url("../images/fondo2.png")
+	background-color #3E403C 
+	background-image no-repeat /* no repetir la imagen en toda la pagina*/
+	background-position center center /* alinear al centro de toda la pagina*/
+	background-attachment fixed /* poner fijo el fondo que solo se deslicen las letras*/
+	-webkit-background-size cover /*tamaño en exploret */
+	-moz-background-size cover /*tamaño en mozila */
+	-o-background-size cover/* navegador opera*/
+	background-size cover /*tamaño*/
+	
+.border2
+	background-color #8D8576
+	border 2px dotted #5C4B4A
+	min-height 600px
+	margin-top 20px
+	margin-bottom 20px
+	padding 10px
+	border-radius 15px
+
+img
+	width 100%
+	height 90%
+	border 2px dotted gray
+
+.image
+	height 90%
+.reproduce
+	height 100%
+#nametitle
+	height 40%
+	width 100%
+#song_name
+	font-size 16px
+	font-style normal
+	font bold
+	font-weight bolder
+	color #FFFFFF
+	text-align center
+#titlesong
+	font-size 25px
+	font-style normal
+	font bold
+	font-weight bolder
+	color #191917
+	text-align center
+#buttons
+	height 50%
+	width 100%
+.process
+	height 20%
+	width 80%
+	margin 10px 50px
+	text-align center
+
+button
+	width 40px
+	height 40px
+	background-color #1A62A3
+	border 2px solid #1A62A3
+	color white
+	border-radius 50px
+	font-size 22px
+	text-align center
+	&:active
+		color #998E7C
+		background #005099
+		border 2px solid #005099
+	&:hover
+		background-color #005099
+		border 2px solid #005099
+
+#lista
+	background-color white
+	border-radius 10px
+	margin-top 10px
+.title
+	font-size 25px
+	font-style normal
+	font bold
+	font-weight bolder
+	color #0C0212
+	text-align center
+
+#more
+	width 100%
+	margin 10px
+	font-size 16px
+
+#more label
+	display inline
+
+.fileUpload 
+	position relative
+	overflow hidden
+	margin 10px
+	input.upload 
+		position absolute
+		top 0
+		right 0
+		margin 0
+		padding 0
+		font-size 20px
+		cursor pointer
+		opacity 0
+
+#songs_list 
+	max-height 300px
+	overflow-y scroll
+	ul
+		padding 0
+		margin 0
+		list-style none
+	.song
+		margin 0
+		padding 5px 10px
+		width 100%
+		background #F5F5F5
+		min-height 35px
+		.play_control
+			cursor pointer
+			display inline-block
+			width 20px
+			height 25px
+			.fa
+				visibility hidden
+		&:hover 
+			.play_control 
+				.fa
+					visibility visible
+					&:active
+						color #7C7062
+
+#media_controls
+	width 100%
+	text-align center
+
+#bpart3
+	width 100%
+	margin 0
