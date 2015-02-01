@@ -1,7 +1,7 @@
 var Song = require("../models/songs");
 var User = require("../models/users");
 var fs = require("fs");
-var audioMetaData = require('audio-metadata');
+var musicTags = require('music-tags');
 
 module.exports = [
     {
@@ -56,54 +56,42 @@ module.exports = [
             handler: function (request, reply) {
                 var filename = request.query.filename;
                 var song = true;
-                var metadata = {};
 
-                function objectHasValues(variable){
-                    if( typeof variable == "object" && variable != null){
-                        if( Object.getOwnPropertyNames(variable).length != 0 )
-                            return true;
+                if(filename != "" && typeof filename != "undefined"){
+                    var stream = fs.createReadStream("./uploads/"+filename)
+                    musicTags(stream, function (err, meta) {
+                        if (err) throw err
+
+                        console.log(meta.title, meta.album, meta.artist[0])
+                        
+                        var song = {
+                            name: meta.title,
+                            author: meta.artist[0],
+                            url: "/songs/" + filename 
+                        };
+
+                        if(song.name != "" && typeof song.name != "undefined"){
+                            User.findOne({ email: request.auth.credentials.email }, function(err, user){
+                                if(err){
+                                    console.log(err);
+                                }
+                                else{
+                                    user.update({ $push: { songs: song } }, {upsert: true}, function(err, user){
+                                        if(err)
+                                            song = false;
+                                        else
+                                            return reply(song).type('application/json');
+                                    });
+                                }
+                            });
+                        }
                         else
-                            return false;
-                    }
-                    else
-                        return false;
-                }
-
-                metadata = audioMetaData.id3v2(fs.readFileSync("./uploads/"+filename));
-                if( !objectHasValues(metadata) )
-                    metadata = audioMetaData.id3v1(fs.readFileSync("./uploads/"+filename));
-                else if( !objectHasValues(metadata) )
-                    metadata = audioMetaData.ogg(fs.readFileSync("./uploads/"+filename));
-                else if( objectHasValues(metadata) ){
-                    metadata.title ="Desconocida";
-                    metadata.artist = "Desconocido";
+                            song = false;
+                    });
                 }
                 else
                     return reply(false).type('application/json');
 
-                var song =  new Song({
-                    name: metadata.title,
-                    author: metadata.artist,
-                    url: "/songs/" + filename 
-                });
-
-                if(song.name != "" && typeof song.name != "undefined" && filename != "" && typeof filename != "undefined"){
-                    User.findOne({ email: request.auth.credentials.email }, function(err, user){
-                        if(err){
-                            console.log(err);
-                        }
-                        else{
-                            user.update({ $push: { songs: song } }, {upsert: true}, function(err, user){
-                                if(err)
-                                    song = false;
-                            });
-                        }
-                    });
-                }
-                else
-                    song = false;
-
-                return reply(song).type('application/json');
             },
             auth: "session" 
         }
