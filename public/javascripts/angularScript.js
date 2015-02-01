@@ -40,11 +40,12 @@
 				save: save
 			};
 		}])
-		.provider('playerService',[function(){
-			//var btnPlayerClass = 'fa-play';
-
+		.provider('playerService',function(){
 			this.$get = function() {
 				var btnPlayerClass = 'fa-play';
+				var isPaused = true;
+				var songIndex = 0;
+				var playingUrl = "";
 				return {
 					getClass: function() {
 						return btnPlayerClass+"";
@@ -53,47 +54,66 @@
 						btnPlayerClass = className;
 					},
 					getIsPaused: function(){
-
+						return isPaused;
 					},
 					setIsPaused: function(paused){
-
+						isPaused = paused;
+					},
+					getSongIndex: function(){
+						return songIndex;
+					},
+					setSongIndex: function(index){
+						songIndex = index;
+					},
+					getPlayingUrl: function(){
+						return playingUrl;
+					},
+					setPlayingUrl: function(url){
+						playingUrl = url;
 					}
 				}
 			};
-		}]);
+		})
+		.factory('_', function() {
+			return window._; 
+		});
 
 	angular.module('player.controllers', [])
 		.controller('PlayerController', ['$scope', 'musicService', 'playerService', function($scope, musicService, playerService){
-
-			var $mediaPlayer = $("#media_player");
-			var $timeLine = $("#time_line");
-			$scope.player = { playing: false }; 
-			$scope.btnPlayerClass = "fa-play";
-			$scope.songIndex = 0;
+			$scope.btnPlayerClass 	= "fa-play";
+			$scope.songName 		= "";
+			$scope.songAuthor 		= "";
 
 			$scope.togglePlayingState = function(index) {
-				//console.log(playerService.getClass());
 				$scope.btnPlayerClass = playerService.getClass();
 				if(typeof index != "undefined"){
-					$scope.songIndex = index;
+					playerService.setSongIndex(index);
+					playerService.setPlayingUrl($scope.songs[index].url);
 				}
 			};
 
 			musicService.all().then(function(data){
-				$scope.songs = data;
-				$scope.playingUrl = data[0].url;
+				$scope.songs 		= data;
+				$scope.playingUrl 	= data[0].url;
+				$scope.songName 	= data[0].name;
+				$scope.songAuthor 	= data[0].author;
+				playerService.setPlayingUrl(data[0].url);
 			});
 
 		}]);
 
 	angular.module('player.directives', [])
-		.directive('play', ['$document', 'playerService', function($document, playerService) {
+		.directive('play', ['$document', 'playerService', '_', function($document, playerService, _) {
 			return {
+				/*scope: { 
+					songIndex: "@songIndex"
+				},*/
 				restrict: "A",
 				link: function($scope, $element, $attrs) {
 
-					var $mediaPlayer = $("#media_player");
-					var $timeLine = $("#time_line");
+					var $mediaPlayer= $("#media_player");
+					var $timeLine 	= $("#time_line");
+					var $songName 	= $("#song_name");
 					// <a class="btn" play="song_url"> </a>
 					
 					$element.on("click", function(e) {
@@ -103,14 +123,14 @@
 						else if($attrs.play == "backward"){
 
 						}
-						else if($mediaPlayer.attr("src") == $attrs.play && $scope.isPaused == false){
+						else if($mediaPlayer.attr("src") == $attrs.play && playerService.getIsPaused() == false){
 							playerService.setClass('fa-play');
-							$scope.isPaused = true;
+							playerService.setIsPaused(true);
 							$mediaPlayer[0].pause();
 						}
 						else{
 							playerService.setClass('fa-pause');
-							$scope.isPaused = false;
+							playerService.setIsPaused(false);
 							$mediaPlayer.attr("src", $attrs.play);
 							$mediaPlayer[0].play();
 						}
@@ -132,9 +152,23 @@
 					function playNext(){
 						$mediaPlayer.currentTime = 0;
 						$timeLine.css({width: '0%'});
-						$mediaPlayer.attr("src", $scope.songs[$scope.songIndex].url);
-						$mediaPlayer[0].play();
-						$scope.songIndex++;
+						var next = playerService.getSongIndex()+1; 
+						console.log(next);
+						if( next < _.size($scope.songs) ){
+							console.log("entra al next");
+							var nextSong = $scope.songs[next];
+							$mediaPlayer.attr("src", nextSong.url);
+							playerService.setPlayingUrl(nextSong.url);
+							$songName.text(nextSong.name + " - " + nextSong.author);
+							playerService.setSongIndex(playerService.getSongIndex()+1);
+							$mediaPlayer[0].play();
+						}
+						else{
+							playerService.setIsPaused(true);
+							playerService.setClass('fa-play');
+							playerService.setSongIndex(0);
+							$mediaPlayer[0].pause();
+						}
 					}
 				}
 			}

@@ -30,9 +30,9 @@
 						<div class="col-lg-9 reproduce">
 							<div id="nametitle" >
 								<p id="titlesong">Bienvenido <%= user.name %></p>
-								<p id="namesong">Name song</p>
+								<p id="song_name">{{ songName }} - {{ songAuthor }}</p>
 								<audio id="media_player">
-									<source ng-src="{{ songs[0] }}" id="playingSong" type="audio/mpeg">
+									<source ng-src="{{ songs[0].url }}" id="playingSong" type="audio/mpeg">
 									Lo sentimos, su navegador no soporta la etiqueta Audio.
 								</audio>
 							</div>
@@ -45,14 +45,14 @@
 									<button type="button" id="btn_backward" play="forward">
 										<i class="fa fa-step-backward"></i>
 									</button>
-									<button type="button" id="btn_play" play="{{ playingUrl }}" binding-var="btnPlayerClass" ng-click="togglePlayingState()">
+									<button type="button" id="btn_play" play="{{ playingUrl }}" song-index="" ng-click="togglePlayingState()">
 										<i class="fa" ng-class="btnPlayerClass"></i>
 									</button>
 									<button type="button" id="btn_forward" play="forward">
 										<i class="fa fa-step-forward"></i>
 									</button>
 									<br>
-									{{ btnPlayerClass }}
+									{{ isPaused }}
 								</div>
 							</div>
 						</div>
@@ -61,16 +61,14 @@
 						<div class="col-sm-9 col-sm-offset-3">
 							<div id="lista">
 
-								<!--{{ songs }}-->
-
 								<div class="title">
 									<p>Lista</p>
 								</div>
 								<div id="songs_list">
 									<ul ng-show="songs">
-										<li ng-repeat="item in songs" class="song" data-url="{{item.url}}">
-											<div class="play_control" ng-click="togglePlayingState($index)" play="{{item.url}}" >
-												<i class="fa fa-play" ng-class="btnPlayerClass"></i>
+										<li ng-repeat="item in songs" class="song" data-url="{{item.url}}" >
+											<div class="play_control" ng-click="togglePlayingState($index)" play="{{item.url}}" song-index="{{$index}}">
+												<i class="fa fa-play"></i>
 											</div>
 											{{ item.name }}
 										</li>
