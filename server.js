@@ -8,7 +8,6 @@ var ss = require('socket.io-stream');
 var path = require('path');
 
 mongoose.connect('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
-//mongoose.createConnection('mongodb://localhost/test');
 
 var server = new Hapi.Server();
 server.connection({ port: 3000 });
