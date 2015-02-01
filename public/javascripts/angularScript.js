@@ -83,12 +83,15 @@
 			$scope.btnPlayerClass 	= "fa-play";
 			$scope.songName 		= "";
 			$scope.songAuthor 		= "";
+			$scope.songIndex 		= 0;
 
 			$scope.togglePlayingState = function(index) {
 				$scope.btnPlayerClass = playerService.getClass();
 				if(typeof index != "undefined"){
 					playerService.setSongIndex(index);
+					$scope.songIndex = index;
 					playerService.setPlayingUrl($scope.songs[index].url);
+					$scope.playingUrl = $scope.songs[index].url;
 				}
 			};
 
@@ -121,7 +124,7 @@
 							playNext();
 						}
 						else if($attrs.play == "backward"){
-
+							playPrevious();
 						}
 						else if($mediaPlayer.attr("src") == $attrs.play && playerService.getIsPaused() == false){
 							playerService.setClass('fa-play');
@@ -129,10 +132,7 @@
 							$mediaPlayer[0].pause();
 						}
 						else{
-							playerService.setClass('fa-pause');
-							playerService.setIsPaused(false);
-							$mediaPlayer.attr("src", $attrs.play);
-							$mediaPlayer[0].play();
+							play();
 						}
 					});
 
@@ -149,23 +149,51 @@
 						playNext();
 					});
 
+					function play(){
+						var nowPlaying 	= $scope.songs[$attrs.songIndex];
+						$songName.text(nowPlaying.name +" - "+ nowPlaying.author);
+						playerService.setClass('fa-pause');
+						playerService.setIsPaused(false);
+						$mediaPlayer.attr("src", $attrs.play);
+						$mediaPlayer[0].play();
+					}
+
 					function playNext(){
 						$mediaPlayer.currentTime = 0;
 						$timeLine.css({width: '0%'});
 						var next = playerService.getSongIndex()+1; 
-						console.log(next);
 						if( next < _.size($scope.songs) ){
-							console.log("entra al next");
 							var nextSong = $scope.songs[next];
 							$mediaPlayer.attr("src", nextSong.url);
 							playerService.setPlayingUrl(nextSong.url);
 							$songName.text(nextSong.name + " - " + nextSong.author);
-							playerService.setSongIndex(playerService.getSongIndex()+1);
+							playerService.setSongIndex(next);
 							$mediaPlayer[0].play();
 						}
-						else{
+						else if(playerService.getSongIndex() == _.size($scope.songs)-1){
 							playerService.setIsPaused(true);
 							playerService.setClass('fa-play');
+							playerService.setSongIndex(-1);
+							$mediaPlayer[0].pause();
+						}
+					}
+
+					function playPrevious(){
+						$mediaPlayer.currentTime = 0;
+						$timeLine.css({width: '0%'});
+						console.log(playerService.getSongIndex());
+						if(playerService.getSongIndex() > 0){
+							var prev = playerService.getSongIndex()-1; 
+							var prevSong = $scope.songs[prev];
+							$mediaPlayer.attr("src", prevSong.url);
+							playerService.setPlayingUrl(prevSong.url);
+							$songName.text(prevSong.name + " - " + prevSong.author);
+							playerService.setSongIndex(prev);
+							$mediaPlayer[0].play();
+						}
+						else if(playerService.getSongIndex() == 0){
+							playerService.setClass('fa-play');
+							playerService.setIsPaused(true);
 							playerService.setSongIndex(0);
 							$mediaPlayer[0].pause();
 						}
