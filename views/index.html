@@ -45,14 +45,14 @@
 									<button type="button" id="btn_backward" play="forward">
 										<i class="fa fa-step-backward"></i>
 									</button>
-									<button type="button" id="btn_play" play="{{ playingUrl }}">
-										<i class="fa" ng-class="btnPlayerClass" ng-click="togglePlayingState()"></i>
-										<!--<i class="fa" ng-class="{'fa-play': isPaused, 'fa-pause': isPlaying, 'fa-play': isStopped}"></i>-->
+									<button type="button" id="btn_play" play="{{ playingUrl }}" binding-var="btnPlayerClass" ng-click="togglePlayingState()">
+										<i class="fa" ng-class="btnPlayerClass"></i>
 									</button>
 									<button type="button" id="btn_forward" play="forward">
 										<i class="fa fa-step-forward"></i>
 									</button>
 									<br>
+									{{ btnPlayerClass }}
 								</div>
 							</div>
 						</div>
@@ -67,8 +67,13 @@
 									<p>Lista</p>
 								</div>
 								<div id="songs_list">
-									<ul ng-include="'song.html'" ng-show="songs">
-										
+									<ul ng-show="songs">
+										<li ng-repeat="item in songs" class="song" data-url="{{item.url}}">
+											<div class="play_control" ng-click="togglePlayingState($index)" play="{{item.url}}" >
+												<i class="fa fa-play" ng-class="btnPlayerClass"></i>
+											</div>
+											{{ item.name }}
+										</li>
 									</ul>
 								</div>
 								<div class="row">
@@ -93,14 +98,5 @@
 			</div>	
 		</div>	
 	</div>
-
-	<script type="text/ng-template" id="song.html">
-		<li ng-repeat="item in songs" class="song" data-url="{{item.url}}">
-			<div class="play_control" ng-click="togglePlayingState($index)" play="{{item.url}}">
-				<i class="fa fa-play"></i>
-			</div>
-			{{ item.name }}
-		</li>
-	</script>
 </body>
 </html>

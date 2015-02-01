@@ -39,23 +39,41 @@
 				all: all,
 				save: save
 			};
+		}])
+		.provider('playerService',[function(){
+			//var btnPlayerClass = 'fa-play';
+
+			this.$get = function() {
+				var btnPlayerClass = 'fa-play';
+				return {
+					getClass: function() {
+						return btnPlayerClass+"";
+					},
+					setClass: function(className){
+						btnPlayerClass = className;
+					},
+					getIsPaused: function(){
+
+					},
+					setIsPaused: function(paused){
+
+					}
+				}
+			};
 		}]);
 
 	angular.module('player.controllers', [])
-		.controller('PlayerController', ['$scope', 'musicService', function($scope, musicService){
+		.controller('PlayerController', ['$scope', 'musicService', 'playerService', function($scope, musicService, playerService){
 
 			var $mediaPlayer = $("#media_player");
 			var $timeLine = $("#time_line");
 			$scope.player = { playing: false }; 
-			$scope.btnPlayerClass = 'fa-play';
+			$scope.btnPlayerClass = "fa-play";
 			$scope.songIndex = 0;
 
 			$scope.togglePlayingState = function(index) {
-				if($scope.btnPlayerClass == 'fa-play')
-					$scope.btnPlayerClass = 'fa-pause';
-				else
-					$scope.btnPlayerClass = 'fa-play';
-
+				//console.log(playerService.getClass());
+				$scope.btnPlayerClass = playerService.getClass();
 				if(typeof index != "undefined"){
 					$scope.songIndex = index;
 				}
@@ -66,18 +84,10 @@
 				$scope.playingUrl = data[0].url;
 			});
 
-		}])
-		.controller('MusicController',['$scope', 'musicService', function($scope, musicService){
-			$scope.song = {};
-
-			musicService.byName('ThePretender').
-				then(function(data){
-					$scope.song = data;
-				});
 		}]);
 
 	angular.module('player.directives', [])
-		.directive('play', ['$document', function($document) {
+		.directive('play', ['$document', 'playerService', function($document, playerService) {
 			return {
 				restrict: "A",
 				link: function($scope, $element, $attrs) {
@@ -94,10 +104,12 @@
 
 						}
 						else if($mediaPlayer.attr("src") == $attrs.play && $scope.isPaused == false){
+							playerService.setClass('fa-play');
 							$scope.isPaused = true;
 							$mediaPlayer[0].pause();
 						}
 						else{
+							playerService.setClass('fa-pause');
 							$scope.isPaused = false;
 							$mediaPlayer.attr("src", $attrs.play);
 							$mediaPlayer[0].play();
