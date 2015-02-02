@@ -3,19 +3,18 @@ var Swig = require('swig');
 var bell = require('bell');
 var hapiAuthCookie = require('hapi-auth-cookie');
 var mongoose = require('mongoose');
-var fs = require("fs");
-var ss = require('socket.io-stream');
+var fs  = require("fs");
+var ss  = require('socket.io-stream');
 var path = require('path');
 
 mongoose.connect('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
+var User = require("./models/users");
 
 var server = new Hapi.Server();
 server.connection({ port: 3000 });
 
 Swig.setDefaults({ cache: false });
 Swig.setDefaults({ varControls: ['<%=', '%>'] });
-
-var User = require("./models/users");
 
 server.views({
     path: "./views/",
