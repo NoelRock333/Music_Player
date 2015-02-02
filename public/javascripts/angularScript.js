@@ -226,10 +226,10 @@
 									musicService.save(filename).then(
 										function(data){
 											if(data == false)
-												alert("Algo salió mal, intentalo de nuevo")
+												$("#new_song_msg").fadeIn(1600).fadeOut(3000);
 											else{
 												$scope.songs.push(data);
-												alert("Tema agregado correctamente");
+												$("#new_song_msg").fadeIn(1600).fadeOut(3000);
 											}
 									});
 

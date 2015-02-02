@@ -62,6 +62,10 @@
 											{{ item.name }}
 										</li>
 									</ul>
+									<div ng-hide="songs.length" id="no_songs_msg">
+										<div class="msg1">Ops, al parecer aun no tienes una lista de reproduccion.</div>
+										<div class="msg2">Deberias agregar canciones para reproducir</div>
+									</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-12" id="more">
@@ -72,6 +76,12 @@
 										</div>
 										<span>Progreso: <span id="upload_progress"></span></span>
 									</div>
+								</div>
+								<div id="new_song_msg" class="bg-success">
+									Tema agregado correctamente.
+								</div>
+								<div id="bad_song_msg" class="bg-danger">
+									Algo salió mal, intentalo de nuevo.
 								</div>
 							</div>
 						</div>
