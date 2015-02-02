@@ -5,6 +5,17 @@ module.exports = [
 	    handler: {
 	        directory: {
 	            path: 'public',
+	            listing: false,
+	            index: true
+	        }
+	    }
+	},
+	{	// For access to assets
+	    method: 'GET',
+	    path: '/songs/{param*}',
+	    handler: {
+	        directory: {
+	            path: 'uploads',
 	            listing: true
 	        }
 	    }

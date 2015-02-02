@@ -1,44 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="UTF-8">
-	<title>{{ title }}</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title><%= title %></title>
+	<link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" href="/stylesheets/media_player.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
-<body>
-	Hello world
-	<img src="/images/Seguridad-internet.jpg" alt="">
-	<input type="file" id="file" />
-	{{ username }}
-	<p>Usuario: {{ user }}</p>
+<body ng-app="player">
+	<div class="container" ng-controller="PlayerController">
+		<div class="row">
+			<div class="col-lg-12 container">
+				<div class="col-sm-offset-2 col-sm-8 col-xs-12 border2">
+					<div id="bpart1" class="row">
+						<div class="col-lg-3 lateral">
+							<img src="../images/audio2.png" class="image visible-lg" alt="Imagen responsive">
+
+							<a href="/logout" id="logout_link">Cerrar sesión <i class="fa fa-sign-out"></i></a>
+						</div>
+						<div class="col-lg-9 reproduce">
+							<div id="nametitle" >
+								<p id="titlesong">Bienvenido <%= user.name %></p>
+								<p id="song_name">{{ songName }} - {{ songAuthor }}</p>
+								<audio id="media_player">
+									<source ng-src="{{ songs[0].url }}" id="playingSong" type="audio/mpeg">
+									Lo sentimos, su navegador no soporta la etiqueta Audio.
+								</audio>
+							</div>
+
+							<div id="buttons" >
+								<div class="progress">
+									<div id="time_line" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+								</div>
+								<div id="media_controls">
+									<button type="button" id="btn_backward" play="backward">
+										<i class="fa fa-step-backward"></i>
+									</button>
+									<button type="button" id="btn_play" play="{{ playingUrl }}" song-index="{{songIndex}}" ng-click="togglePlayingState()">
+										<i class="fa" ng-class="btnPlayerClass"></i>
+									</button>
+									<button type="button" id="btn_forward" play="forward">
+										<i class="fa fa-step-forward"></i>
+									</button>
+									<br>
+									<br>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-9 col-sm-offset-3">
+							<div id="lista">
+
+								<div class="title">
+									<p>Lista</p>
+								</div>
+								<div id="songs_list">
+									<ul ng-show="songs">
+										<li ng-repeat="item in songs" class="song" data-url="{{item.url}}" >
+											<div class="play_control" ng-click="togglePlayingState($index)" play="{{item.url}}" song-index="{{$index}}">
+												<i class="fa fa-play"></i>
+											</div>
+											{{ item.name }}
+										</li>
+									</ul>
+									<div ng-hide="songs.length" id="no_songs_msg">
+										<div class="msg1">Ops, al parecer aun no tienes una lista de reproduccion.</div>
+										<div class="msg2">Deberias agregar canciones para reproducir</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-12" id="more">
+										<label>Agregar mas canciones</label>
+										<div class="fileUpload btn btn-primary">
+											<i class="fa fa-plus fa-lg"></i>
+										    <input type="file" id="file" class="upload" song-uploader="<%= user.id %>" accept=".mp3,audio/*"/>
+										</div>
+										<span>Progreso: <span id="upload_progress"></span></span>
+									</div>
+								</div>
+								<div id="new_song_msg" class="bg-success">
+									Tema agregado correctamente.
+								</div>
+								<div id="bad_song_msg" class="bg-danger">
+									Algo salió mal, intentalo de nuevo.
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>	
+	</div>
+	<script src="/javascripts/jquery.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/javascripts/socket.io-stream.js"></script>
-	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-	<script>
-	$(function() {
-	  var socket = io('http://localhost:3000');
-
-	  $('#file').change(function(e) {
-	  	console.log("emitiendo change");
-	    var file = e.target.files[0];
-	    var stream = ss.createStream();
-
-	    // upload a file to the server.
-	    ss(socket).emit('file', stream, {size: file.size, filename: file.name});
-	    ss.createBlobReadStream(file).pipe(stream);
-
-	    // Upload progress 
-	    /*var blobStream = ss.createBlobReadStream(file);
-		var size = 0;
-
-		blobStream.on('data', function(chunk) {
-		  size += chunk.length;
-		  console.log(Math.floor(size / file.size * 100) + '%');
-		  // -> e.g. '42%'
-		});
-
-		blobStream.pipe(stream);*/
-	  });
-	});
-	</script>
+	<script src="/javascripts/underscore.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
+	<script src="/javascripts/angularScript.js"></script>
 </body>
 </html>

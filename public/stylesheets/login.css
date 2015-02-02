@@ -1,0 +1,64 @@
+body {
+  background-color: #3e403c;
+}
+#fondo {
+  background-image: url("../images/fondo.png");
+  background-image: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.centro {
+  height: 500px;
+  width: 400px;
+  border: 3px solid #1c7480;
+  border-radius: 20px;
+  background-color: rgba(2,38,92,0.6);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -250px;
+  margin-left: -200px;
+}
+.titulo {
+  width: 100%;
+  height: 10%;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: bold;
+  color: #deddd5;
+  text-align: center;
+  margin-top: 50px;
+}
+.titulo2 {
+  width: 100%;
+  height: 10%;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: bold;
+  color: #deddd5;
+  text-align: center;
+  vertical-align: center;
+  margin-top: 30px;
+}
+.Google {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.Google img {
+  height: 20%;
+  opacity: 1;
+}
+.titulo3 {
+  width: 100s;
+  height: 2%;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: bold;
+  color: #deddd5;
+  text-align: center;
+}

@@ -3,23 +3,18 @@ var Swig = require('swig');
 var bell = require('bell');
 var hapiAuthCookie = require('hapi-auth-cookie');
 var mongoose = require('mongoose');
-var fs = require("fs");
-var ss = require('socket.io-stream');
+var fs  = require("fs");
+var ss  = require('socket.io-stream');
 var path = require('path');
 
 mongoose.connect('mongodb://admin:supersecreto@linus.mongohq.com:10064/MongoTesting');
+var User = require("./models/users");
 
 var server = new Hapi.Server();
 server.connection({ port: 3000 });
+
 Swig.setDefaults({ cache: false });
-
-var userSchema = mongoose.Schema({
-    firstname: String,
-    lastname: String,
-    email: String
-});
-
-var User = mongoose.model('User', userSchema);
+Swig.setDefaults({ varControls: ['<%=', '%>'] });
 
 server.views({
     path: "./views/",
@@ -29,13 +24,6 @@ server.views({
     isCached: false
 });
 
-
-/*var validate = function(){
-    console.log("session: "+ JSON.stringify(request.auth));
-    if (request.auth.credentials != null) {
-        return redirect("/login");
-    }
-}*/
 server.register(hapiAuthCookie , function (err) {
     server.auth.strategy('session', 'cookie', {
         password: 'secret',
@@ -44,8 +32,6 @@ server.register(hapiAuthCookie , function (err) {
         isSecure: false
     });
 });
-
-
 
 // Register bell with the server
 server.register(bell , function (err) {
@@ -74,7 +60,7 @@ server.register(bell , function (err) {
                 });
 
                 User.findOne({ email: user.email }, function (err, doc){
-                    if(err)
+                    if(doc == null)
                     {
                         user.save(function (err, user) {
                             if (err) { 
@@ -110,8 +96,13 @@ var io = require('socket.io')(server.listener);
 io.on('connection', function (socket) {
     console.log("Connected socket");
     ss(socket).on('file', function(stream, data) {
-        console.log("File route");
-        var filename = path.basename(data.filename);
+        var filename = data.filename + Date.now() + ".mp3";
+
         stream.pipe(fs.createWriteStream("./uploads/"+filename));
+
+        if (fs.existsSync("./uploads/"+filename)) {
+            socket.emit('file_name', { filename: filename });
+        }
     });
 });
+
