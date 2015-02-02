@@ -108,16 +108,12 @@
 	angular.module('player.directives', [])
 		.directive('play', ['$document', 'playerService', '_', function($document, playerService, _) {
 			return {
-				/*scope: { 
-					songIndex: "@songIndex"
-				},*/
 				restrict: "A",
 				link: function($scope, $element, $attrs) {
 
 					var $mediaPlayer= $("#media_player");
 					var $timeLine 	= $("#time_line");
 					var $songName 	= $("#song_name");
-					// <a class="btn" play="song_url"> </a>
 					
 					$element.on("click", function(e) {
 						if($attrs.play == "forward"){
@@ -127,9 +123,7 @@
 							playPrevious();
 						}
 						else if($mediaPlayer.attr("src") == $attrs.play && playerService.getIsPaused() == false){
-							playerService.setClass('fa-play');
-							playerService.setIsPaused(true);
-							$mediaPlayer[0].pause();
+							pause();
 						}
 						else{
 							play();
@@ -144,12 +138,11 @@
 						$timeLine.css({width: pos + '%'});
 					});
 
-					// Detect when the song end
 					$mediaPlayer.on('ended', function() {
 						playNext();
 					});
 
-					function play(){
+					var play = function(){
 						var nowPlaying 	= $scope.songs[$attrs.songIndex];
 						$songName.text(nowPlaying.name +" - "+ nowPlaying.author);
 						playerService.setClass('fa-pause');
@@ -158,7 +151,13 @@
 						$mediaPlayer[0].play();
 					}
 
-					function playNext(){
+					var pause = function(){
+						playerService.setClass('fa-play');
+						playerService.setIsPaused(true);
+						$mediaPlayer[0].pause();
+					}
+
+					var playNext = function(){
 						$mediaPlayer.currentTime = 0;
 						$timeLine.css({width: '0%'});
 						var next = playerService.getSongIndex()+1; 
@@ -178,10 +177,9 @@
 						}
 					}
 
-					function playPrevious(){
+					var playPrevious = function(){
 						$mediaPlayer.currentTime = 0;
 						$timeLine.css({width: '0%'});
-						console.log(playerService.getSongIndex());
 						if(playerService.getSongIndex() > 0){
 							var prev = playerService.getSongIndex()-1; 
 							var prevSong = $scope.songs[prev];
@@ -216,10 +214,7 @@
 						var filename = "";
 
 						if(file.name.split('.').pop() == "mp3"){
-							// upload a file to the server.
 							ss(socket).emit('file', stream, {size: file.size, filename: $attrs.songUploader });
-
-							// Upload progress 
 							var blobStream = ss.createBlobReadStream(file);
 
 							blobStream.on('data', function(chunk) {
@@ -230,12 +225,11 @@
 								if(progress == 100){
 									musicService.save(filename).then(
 										function(data){
-											console.log(data);
 											if(data == false)
 												alert("Algo salió mal, intentalo de nuevo")
 											else{
-												alert("Tema agregado correctamente");
 												$scope.songs.push(data);
+												alert("Tema agregado correctamente");
 											}
 									});
 
